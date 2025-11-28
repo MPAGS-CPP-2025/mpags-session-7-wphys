@@ -62,11 +62,9 @@ Available options:
   --version        Print version information
 
   -i FILE          Read text to be processed from FILE
-                   (Not currently implemented)
                    Stdin will be used if not supplied
 
   -o FILE          Write processed text to FILE
-                   (Not currently implemented)
                    Stdout will be used if not supplied
 ```
 
