@@ -2,6 +2,7 @@
 #include "TransformChar.hpp"
 
 #include <cctype>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -59,26 +60,38 @@ int main(int argc, char* argv[])
     std::string inputText;
 
     // Read in user input from stdin/file
-    // Warn that input file option not yet implemented
     if (!inputFile.empty()) {
-        std::cerr << "[warning] input from file ('" << inputFile
-                  << "') not implemented yet, using stdin\n";
-    }
-
-    // loop over each character from user input
-    while (std::cin >> inputChar) {
-        inputText += transformChar(inputChar);
+        // loop over each character from input file
+        std::ifstream inFile{inputFile};
+        bool ok_to_read = inFile.good();
+        if (not ok_to_read) {
+            std::cerr << "Error: could not read from input file " << inputFile
+                      << std::endl;
+            return 1;
+        }
+        while (inFile >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
+    } else {
+        // loop over each character from user input
+        while (std::cin >> inputChar) {
+            inputText += transformChar(inputChar);
+        }
     }
 
     // Print out the transliterated text
-
-    // Warn that output file option not yet implemented
     if (!outputFile.empty()) {
-        std::cerr << "[warning] output to file ('" << outputFile
-                  << "') not implemented yet, using stdout\n";
+        std::ofstream outFile{outputFile};
+        bool ok_to_write = outFile.good();
+        if (not ok_to_write) {
+            std::cerr << "Error: could not write to output file " << outputFile
+                      << std::endl;
+            return 1;
+        }
+        outFile << inputText << std::endl;
+    } else {
+        std::cout << inputText << std::endl;
     }
-
-    std::cout << inputText << std::endl;
 
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
