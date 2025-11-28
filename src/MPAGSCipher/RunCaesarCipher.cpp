@@ -11,6 +11,7 @@ std::string runCaesarCipher(const std::string& inputText, const size_t key,
     // Determine the new character and add it to the output string
     // Finally (after the loop), return the output string
     std::string alphabet{"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+    size_t alphabet_size = alphabet.size();
 
     std::string outputText;
     for (const auto& c : inputText) {
@@ -18,11 +19,11 @@ std::string runCaesarCipher(const std::string& inputText, const size_t key,
         int shift = static_cast<int>(key);
         if (not encrypt) {
             // Decrypting, use negative shift
-            shift = -key;
+            shift = -shift;
         }
         // compute shifted character with wrap-around using modulo
-        int initial_position = alphabet.find(c);
-        int shifted_position = (initial_position + 26 + shift) % 26;
+        size_t initial_position = alphabet.find(c);
+        size_t shifted_position = (initial_position + alphabet_size + shift) % alphabet_size;
         char newChar = alphabet[shifted_position];
 
         outputText += newChar;
