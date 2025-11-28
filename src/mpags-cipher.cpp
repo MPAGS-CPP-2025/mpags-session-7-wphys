@@ -1,5 +1,6 @@
 #include "ProcessCommandLine.hpp"
 #include "TransformChar.hpp"
+#include "RunCaesarCipher.hpp"
 
 #include <cctype>
 #include <fstream>
@@ -84,7 +85,22 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Print out the transliterated text
+    // // Print out the transliterated text
+    // if (!outputFile.empty()) {
+    //     std::ofstream outFile{outputFile};
+    //     bool ok_to_write = outFile.good();
+    //     if (not ok_to_write) {
+    //         std::cerr << "Error: could not write to output file " << outputFile
+    //                   << std::endl;
+    //         return 1;
+    //     }
+    //     outFile << inputText << std::endl;
+    // } else {
+    //     std::cout << inputText << std::endl;
+    // }
+    
+    std::string outputText = runCaesarCipher(inputText, std::stoi(cipherkey), encrypt);
+    // Print out the encrypted transliterated text
     if (!outputFile.empty()) {
         std::ofstream outFile{outputFile};
         bool ok_to_write = outFile.good();
@@ -93,11 +109,10 @@ int main(int argc, char* argv[])
                       << std::endl;
             return 1;
         }
-        outFile << inputText << std::endl;
+        outFile << outputText << std::endl;
     } else {
-        std::cout << inputText << std::endl;
+        std::cout << outputText << std::endl;
     }
-
     // No requirement to return from main, but we do so for clarity
     // and for consistency with other functions
     return 0;
